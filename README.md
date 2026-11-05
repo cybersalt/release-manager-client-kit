@@ -47,7 +47,7 @@ Release Manager's screen gives you this prompt with your values in it. [INTEGRAT
 
 ### 4. Have us do it
 
-All of the above is included with your Release Manager licence. If you'd still rather not touch the code, Cybersalt offers a [fixed-fee integration service](https://www.cybersalt.com/extensions/release-manager/integration-service).
+All of the above is included with your Release Manager licence. If you'd still rather not touch the code, Cybersalt offers a [fixed-fee integration service](https://www.cybersalt.com/extensions/release-manager-integration-service).
 
 ## See it working
 
