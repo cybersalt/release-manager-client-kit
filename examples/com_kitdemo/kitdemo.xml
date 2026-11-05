@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>COM_KITDEMO</name>
+    <author>Cybersalt</author>
+    <creationDate>November 2026</creationDate>
+    <copyright>Copyright (C) 2026 Cybersalt. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>1.0.0</version>
+    <description>A small component showing the client kit added to an extension.</description>
+
+    <namespace path="src">Acme\Component\Kitdemo</namespace>
+
+    <scriptfile>script.php</scriptfile>
+
+    <administration>
+        <menu img="class:cube">COM_KITDEMO</menu>
+        <submenu>
+            <menu link="option=com_kitdemo&amp;view=dashboard">COM_KITDEMO</menu>
+            <menu link="option=com_kitdemo&amp;view=account">Link your account</menu>
+        </submenu>
+        <files folder="admin">
+            <folder>language</folder>
+            <folder>services</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+        </files>
+    </administration>
+
+    <updateservers>
+        <server type="extension" name="Kit Demo">https://store.example.com/index.php?option=com_csreleasemanager&amp;task=api.updatexml&amp;format=raw&amp;element=com_kitdemo</server>
+    </updateservers>
+    <dlid prefix="dlid=" suffix="" />
+</extension>

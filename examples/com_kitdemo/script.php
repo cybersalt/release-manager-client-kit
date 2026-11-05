@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @copyright   Copyright (C) 2026 Cybersalt. All rights reserved.
+ * @license     GNU General Public License version 2 or later
+ */
+
+defined('_JEXEC') or die;
+
+class Com_kitdemoInstallerScript
+{
+    public function postflight(string $type, $adapter): bool
+    {
+        $class = 'Acme\\Component\\Kitdemo\\Administrator\\Helper\\AccountLinkHelper';
+        $file  = JPATH_ADMINISTRATOR . '/components/com_kitdemo/src/Helper/AccountLinkHelper.php';
+
+        try {
+            if (!class_exists($class, false) && is_file($file)) {
+                require_once $file;
+            }
+
+            if (class_exists($class, false)) {
+                register_shutdown_function(static function () use ($class): void {
+                    try {
+                        $class::syncUpdateSite();
+                    } catch (\Throwable $e) {
+                        // The panel puts the key back when it is next opened.
+                    }
+                });
+            }
+        } catch (\Throwable $e) {
+            // Not worth failing an install over; the panel puts the key back when opened.
+        }
+
+        return true;
+    }
+}

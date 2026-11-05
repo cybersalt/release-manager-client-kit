@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>PLG_SYSTEM_KITDEMOPLG</name>
+    <author>Cybersalt</author>
+    <creationDate>November 2026</creationDate>
+    <copyright>Copyright (C) 2026 Cybersalt. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>1.0.0</version>
+    <description>A small plugin showing the client kit added to an extension.</description>
+
+    <namespace path="src">Acme\Plugin\System\Kitdemoplg</namespace>
+
+    <scriptfile>script.php</scriptfile>
+
+    <files>
+        <folder plugin="kitdemoplg">services</folder>
+        <folder>language</folder>
+        <folder>src</folder>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="greeting" type="text" label="Greeting" default="Hello" />
+            </fieldset>
+            <fieldset name="account" label="Link your account" addfieldprefix="Acme\Plugin\System\Kitdemoplg\Field">
+                <field name="account_link" type="accountlink" hiddenLabel="true" />
+            </fieldset>
+        </fields>
+    </config>
+
+    <updateservers>
+        <server type="extension" name="Kit Demo Plugin">https://store.example.com/index.php?option=com_csreleasemanager&amp;task=api.updatexml&amp;format=raw&amp;element=kitdemoplg</server>
+    </updateservers>
+    <dlid prefix="dlid=" suffix="" />
+</extension>
