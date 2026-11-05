@@ -12,7 +12,7 @@ You need these. They are normally in the developer's prompt. If any is missing, 
 |---|---|---|
 | Store URL | `https://store.example.com` | The site running Release Manager |
 | Store name | `Acme Store` | What customers call the store |
-| Package element | `pkg_gallery` | The package's Extension Element in Release Manager |
+| Package element | `pkg_gallery` | The package's Extension Element in Release Manager. It's whatever is sold: `pkg_x`, `com_x`, or a plugin's element |
 | Feed key | `gallery5` or none | The package's Feed Key, usually none |
 | Product name | `Acme Gallery` | What customers call the product |
 
@@ -22,7 +22,7 @@ Find the extension's manifests (XML files whose root is `<extension>`).
 
 - **A component, or a package containing one:** use the kit with `--type=component`, on that component.
 - **A plugin, or a package containing plugins but no component:** use the kit with `--type=plugin`, on the plugin customers would most naturally open. It must be a plugin that is normally enabled.
-- **Anything else, such as a module on its own:** use the download-key route in step 6 and stop there. Tell the developer why.
+- **Anything else, such as a module on its own:** use the download-key route in section 6 and stop there. Tell the developer why.
 
 If the extension's code doesn't use namespaces (`<namespace path="src">` in the manifest), the kit won't work as it stands. Use the download-key route and tell the developer.
 
@@ -30,7 +30,7 @@ If `AccountLinkHelper` already exists in the extension, it has been integrated b
 
 ## 3. Generate the kit
 
-Clone this repository somewhere outside the developer's repository, then run the generator with the values you collected. `--namespace` is the value in the manifest's `<namespace>` tag.
+Clone this repository somewhere outside the developer's repository, then run the generator with the values you collected. `--namespace` is the value in the manifest's `<namespace>` tag, exactly as written there: no `\Administrator` on the end.
 
 ```sh
 git clone --depth 1 https://github.com/cybersalt/release-manager-client-kit.git <temp>/kit-source
@@ -51,10 +51,10 @@ The generator writes a `README.md`. It is the same steps as below, with the deve
 ## 4. Apply it
 
 1. **Copy the files** into the extension. For a component, `<temp>/kit/admin` goes over the folder the manifest's `<administration><files folder="...">` points to. For a plugin, `src` and `language` go in the plugin's folder. Only new files should be added. If one would overwrite something, stop and ask.
-2. **Edit the manifests** from `<temp>/kit/snippets/manifest.xml`. Each block says which manifest it goes in. Keep what's there, and replace an existing `<updateservers>` block only if the developer has confirmed the store is taking over updates. An extension already in the wild that moves to a new update server needs care, so point that out.
+2. **Edit the manifests** from `<temp>/kit/snippets/manifest.xml`. Each block says which manifest it goes in and where. Replace an existing `<updateservers>` block only if the developer has confirmed the store is taking over updates: every site that installs this version will then look at the store. Point that out in your report.
 3. **Check the manifest's file lists.** The kit adds to `src`, `tmpl` and `language`. If the manifest lists files one by one rather than folders, add the new ones.
-4. **For a component with an existing `<submenu>`:** add the new entry to it. **With none:** add one, including an entry for the component's main view, or Joomla shows only the new one.
-5. **Restore the key after updates.** Merge `<temp>/kit/snippets/postflight.php` into the `postflight()` of the `script.php` that belongs to what is sold (the package's, if it is a package). Keep the `register_shutdown_function`: Joomla rebuilds the update site after postflight runs, so a direct call does nothing for the URL. If there is no `script.php`, add one, rename the class to match the extension, and add `<scriptfile>` to the manifest.
+4. **For a component with an existing `<submenu>`:** add only the new entry to it. **With none:** add the snippet's whole block, and give its first entry the same text as the manifest's `<menu>` tag, so the main view stays in the menu. The "Link your account" label is plain text; use a language key instead if the extension's other menu entries do.
+5. **Restore the key after updates.** Merge `<temp>/kit/snippets/postflight.php` into the `postflight()` of the `script.php` that belongs to what is sold (the package's, if it is a package). Keep the `register_shutdown_function`: Joomla rebuilds the update site after postflight runs, so a direct call does nothing for the URL. If there is no `script.php`, put the snippet next to that manifest as `script.php` and add `<scriptfile>script.php</scriptfile>` to the manifest. **Keep the generated class name:** Joomla silently skips the script if the name is wrong (a plugin sold on its own is `Plg<Group><Element>InstallerScript`, anything else is its element followed by `InstallerScript`). If the extension already has a `script.php`, merge only the body of the method.
 6. **For a plugin:** add one method from `<temp>/kit/snippets/plugin-method.php` to the plugin class, in the form that matches it. If the class implements `SubscriberInterface`, add the event to `getSubscribedEvents()` too.
 7. **Match the extension's build.** If a build script lists files or folders, make sure the new ones get packaged.
 

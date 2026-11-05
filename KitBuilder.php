@@ -146,6 +146,22 @@ final class KitBuilder
         ];
     }
 
+    /**
+     * The install script class Joomla looks for. It skips the script silently when
+     * the name is wrong. A plugin sold on its own is Plg<group><element>InstallerScript;
+     * a package or component is its element with InstallerScript on the end.
+     */
+    private static function scriptClass(array $o, bool $isPlugin, string $folder, string $element): string
+    {
+        $sold = (string) $o['package_element'];
+
+        if ($isPlugin && $sold === $element) {
+            return 'Plg' . ucfirst($folder) . ucfirst($element) . 'InstallerScript';
+        }
+
+        return ucfirst(str_replace(['-', '.'], '', $sold)) . 'InstallerScript';
+    }
+
     private static function tokens(array $o): array
     {
         $isPlugin = $o['ext_type'] === 'plugin';
@@ -182,7 +198,7 @@ final class KitBuilder
             '{{HELPER_FILE}}'     => $isPlugin
                 ? "JPATH_PLUGINS . '/" . $folder . '/' . $element . "/src/Helper/AccountLinkHelper.php'"
                 : "JPATH_ADMINISTRATOR . '/components/" . $element . "/src/Helper/AccountLinkHelper.php'",
-            '{{SCRIPT_CLASS}}'    => ucfirst(str_replace(['-', '.'], '_', (string) $o['package_element'])) . 'InstallerScript',
+            '{{SCRIPT_CLASS}}'    => self::scriptClass($o, $isPlugin, $folder, $element),
             '{{FEED_URL_XML}}'    => $xml(self::feedUrl($o)),
             '{{PRODUCT}}'         => $md($product),
             '{{PRODUCT_INI}}'     => $ini($product),

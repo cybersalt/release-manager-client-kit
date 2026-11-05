@@ -11,8 +11,9 @@
 <folder>language</folder>
 <folder>src</folder>
 
-<!-- C. In the manifest of what you sell ({{PACKAGE_ELEMENT}}), at the top level.
-     Replace any <updateservers> block you already have. -->
+<!-- C. In the manifest of what you sell ({{PACKAGE_ELEMENT}}), at the top level. If you
+     already have an <updateservers> block, this replaces it, so your store takes over
+     updates for every site that installs this version. -->
 <updateservers>
     <server type="extension" name="{{PRODUCT_XML}}">{{FEED_URL_XML}}</server>
 </updateservers>

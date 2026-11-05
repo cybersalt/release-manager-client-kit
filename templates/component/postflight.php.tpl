@@ -8,9 +8,9 @@
 // extra_query, which its own update screen uses, but not in the URL, which remote
 // managers such as mySites.guru need. So the key goes back at the end of the request.
 //
-// No script.php yet? Copy this whole file there, keep the class wrapper below,
-// rename the class to match your extension, and add <scriptfile>script.php</scriptfile>
-// to that manifest.
+// No script.php yet? Copy this whole file next to that manifest and add
+// <scriptfile>script.php</scriptfile> to it. Keep the class name: Joomla silently
+// skips the script if it doesn't match what it expects for that extension.
 
 class {{SCRIPT_CLASS}}
 {
