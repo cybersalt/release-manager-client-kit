@@ -21,21 +21,22 @@ define('CSRM_KIT_CLI', true);
 
 require __DIR__ . '/KitBuilder.php';
 
-$args = getopt('', ['store:', 'store-name:', 'element:', 'key:', 'type:', 'ext:', 'group:', 'namespace:', 'product:', 'support:', 'out:', 'help']);
+$args = getopt('', ['store:', 'store-name:', 'element:', 'key:', 'type:', 'ext:', 'group:', 'client:', 'namespace:', 'product:', 'support:', 'out:', 'help']);
 
 if (isset($args['help']) || !isset($args['store'], $args['element'], $args['type'], $args['ext'], $args['namespace'], $args['product'], $args['out'])) {
     fwrite(STDERR, <<<'USAGE'
 Required:
   --store=URL          Your store's address, for example https://store.example.com
   --element=NAME       The package's element in the store, for example pkg_gallery
-  --type=TYPE          component or plugin
-  --ext=NAME           The extension that shows the panel: com_gallery, or a plugin's element
+  --type=TYPE          component, plugin or module
+  --ext=NAME           The extension that shows the panel: com_gallery, mod_gallery, or a plugin's element
   --namespace=NS       The value in that extension's <namespace> tag
   --product=NAME       The product name customers see
   --out=DIR            Where to write the kit. Must be empty or not exist yet
 
 Optional:
   --group=NAME         Plugin group, for example system. Required for a plugin
+  --client=NAME        site or administrator, for a module. Defaults to site
   --key=KEY            The package's Feed Key, if it has one
   --store-name=NAME    What customers call your store. Defaults to the product name
   --support=TEXT       Where customers get help, for example support@example.com
@@ -52,6 +53,7 @@ $options = [
     'ext_type'        => (string) $args['type'],
     'ext_element'     => (string) $args['ext'],
     'ext_folder'      => (string) ($args['group'] ?? ''),
+    'ext_client'      => (string) ($args['client'] ?? 'site'),
     'namespace'       => trim((string) $args['namespace'], '\\'),
     'product'         => (string) $args['product'],
     'support'         => (string) ($args['support'] ?? ''),

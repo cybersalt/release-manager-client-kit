@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+    <name>Kit Demo Module</name>
+    <author>Cybersalt</author>
+    <creationDate>November 2026</creationDate>
+    <copyright>Copyright (C) 2026 Cybersalt. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>1.0.0</version>
+    <description>A small module showing the client kit added to an extension.</description>
+
+    <namespace path="src">Acme\Module\Kitdemomod</namespace>
+
+    <scriptfile>script.php</scriptfile>
+
+    <files>
+        <folder module="mod_kitdemomod">services</folder>
+        <folder>language</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="greeting" type="text" label="Greeting" default="Hello from the demo module" />
+            </fieldset>
+            <fieldset name="account" label="Link your account" addfieldprefix="Acme\Module\Kitdemomod\Site\Field">
+                <field name="account_link" type="accountlink" hiddenLabel="true" />
+            </fieldset>
+        </fields>
+    </config>
+
+    <updateservers>
+        <server type="extension" name="Kit Demo Module">https://store.example.com/index.php?option=com_csreleasemanager&amp;task=api.updatexml&amp;format=raw&amp;element=mod_kitdemomod</server>
+    </updateservers>
+</extension>

@@ -20,16 +20,20 @@ class PlgSystemKitdemoplgInstallerScript
             }
 
             if (class_exists($class, false)) {
+                if ($type === 'install') {
+                    $class::noticeOnInstall();
+                }
+
                 register_shutdown_function(static function () use ($class): void {
                     try {
                         $class::syncUpdateSite();
                     } catch (\Throwable $e) {
-                        // The panel puts the key back when it is next opened.
+                        // The panel puts it back when it is next opened.
                     }
                 });
             }
         } catch (\Throwable $e) {
-            // Not worth failing an install over; the panel puts the key back when opened.
+            // Not worth failing an install over; the panel puts it back when opened.
         }
 
         return true;

@@ -10,7 +10,7 @@ Copy the `admin` folder in this kit over your component's admin folder. It only 
 
 | File | What it is |
 |---|---|
-| `admin/src/Helper/AccountLinkHelper.php` | The client: register, link, verify, write the download key to your update site |
+| `admin/src/Helper/AccountLinkHelper.php` | The client: register, link, verify, write the link to your update site |
 | `admin/src/Helper/account-panel.php` | The panel's layout. Change it freely |
 | `admin/src/Controller/AccountController.php` | What the panel posts to |
 | `admin/src/View/Account/HtmlView.php`, `admin/tmpl/account/default.php` | The screen that shows the panel |
@@ -22,7 +22,7 @@ If your component's admin folder isn't called `admin` in your repository, copy t
 
 `snippets/manifest.xml` has the lines, with your URLs in them. Each block says where it goes.
 
-## 3. Restore the key after updates
+## 3. Restore the link after updates
 
 `snippets/postflight.php` has what goes in `postflight()`.
 
@@ -40,6 +40,7 @@ In the package on your store, set **Account Link Location** to `in Components > 
 ## Good to know
 
 - **Linking needs no email confirmation, on purpose.** Your code is GPL, so nobody can be stopped from running it. Instead, the owner of the address gets an email naming the domain and can remove or report the site on the store's My Installations page, and you see every domain under **Installations**, so you can write to sites that haven't paid.
+- **Your customers never handle a key.** Don't add a `<dlid>` tag to your manifest: Joomla would then show them a "Download Key missing" warning and a box to paste one into.
 - **The link is stored in your extension's `custom_data` column** in `#__extensions`, under the key `csrm_account`, not in its params. Saving your Options screen and updating your extension both leave it alone. If your extension already keeps data in `custom_data`, it needs to be JSON for the two to live side by side.
 - **Keep the security checks** if you change `AccountLinkHelper`: the strict `isOwnFeed()`, the `getDlid()` shape check, and escaping everything the store sends. It is shown to a Super User in your customer's admin.
 - **Requires** a namespaced component with `<namespace path="src">` in its manifest, on Joomla 5 or 6 and PHP 8.1+.

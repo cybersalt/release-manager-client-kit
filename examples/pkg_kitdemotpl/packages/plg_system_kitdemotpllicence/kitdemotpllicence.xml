@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>Kit Demo Template</name>
+    <author>Cybersalt</author>
+    <creationDate>November 2026</creationDate>
+    <copyright>Copyright (C) 2026 Cybersalt. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>1.0.0</version>
+    <description>Links this site to its licence for Kit Demo Template.</description>
+
+    <namespace path="src">Acme\Plugin\System\Kitdemotpllicence</namespace>
+
+    <files>
+        <folder plugin="kitdemotpllicence">services</folder>
+        <folder>language</folder>
+        <folder>src</folder>
+    </files>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic" label="Link your account" addfieldprefix="Acme\Plugin\System\Kitdemotpllicence\Field">
+                <field name="account_link" type="accountlink" hiddenLabel="true" />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

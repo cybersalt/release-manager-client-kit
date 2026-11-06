@@ -52,7 +52,7 @@ final class AccountLinkHelper
 
     private const EXT_FOLDER = '';
 
-    /** Where the panel posts to, relative to the administrator. */
+    /** Where the panel posts to, relative to the administrator. Empty: the screen it is on. */
     private const AJAX_URL = 'index.php?option=com_kitdemo&task=account.run&format=raw';
 
     /** Language file and key prefix for the panel's text. */
@@ -96,8 +96,10 @@ final class AccountLinkHelper
         Factory::getApplication()->getDocument()->getWebAssetManager()
             ->addInlineScript(self::script());
 
+        $endpoint = self::AJAX_URL === '' ? Uri::getInstance()->toString(['path', 'query']) : Uri::base(true) . '/' . self::AJAX_URL;
+
         return '<div data-csrm-account="' . self::EXT_ELEMENT . '"'
-            . ' data-endpoint="' . htmlspecialchars(Uri::base(true) . '/' . self::AJAX_URL, ENT_QUOTES, 'UTF-8') . '"'
+            . ' data-endpoint="' . htmlspecialchars($endpoint, ENT_QUOTES, 'UTF-8') . '"'
             . ' data-token="' . Session::getFormToken() . '"'
             . ' data-failed="' . htmlspecialchars(self::text('LINK_FAILED'), ENT_QUOTES, 'UTF-8', false) . '">'
             . self::panelHtml()
@@ -169,6 +171,16 @@ final class AccountLinkHelper
         return json_encode(['html' => self::panelHtml($notice, $type)]);
     }
 
+    /** Tells whoever just installed this where to link, unless the site already is. */
+    public static function noticeOnInstall(): void
+    {
+        self::loadLanguage();
+
+        if (!self::isLinked()) {
+            Factory::getApplication()->enqueueMessage(self::text('INSTALL_NOTICE'), 'info');
+        }
+    }
+
     /**
      * Put the dlid on this extension's own update site. Joomla rebuilds that row
      * when the extension updates, so your script.php postflight schedules this
@@ -177,9 +189,8 @@ final class AccountLinkHelper
      * Only the update site for this package on the store itself is touched.
      * Other extensions on the same site have their own update sites and keys.
      *
-     * When the site is not linked nothing is written, so a key pasted by hand
-     * under System > Update Sites survives. Unlink passes the dlid it is
-     * dropping as $forget, and only that one is taken off.
+     * When the site is not linked nothing is written. Unlink passes the dlid it
+     * is dropping as $forget, and only that one is taken off.
      *
      * @return int Rows written.
      */
@@ -208,7 +219,7 @@ final class AccountLinkHelper
                     continue;
                 }
 
-                // Unlinking: leave a key that isn't the one being forgotten.
+                // Unlinking: leave a dlid that isn't the one being forgotten.
                 if ($dlid === '' && (string) $row['extra_query'] !== '' && (string) $row['extra_query'] !== 'dlid=' . $forget) {
                     $extraQuery = (string) $row['extra_query'];
                 } elseif ($dlid === '') {
@@ -292,10 +303,12 @@ final class AccountLinkHelper
         $user = Factory::getApplication()->getIdentity();
 
         // com_ajax has no permission gate of its own, so a plugin needs what the
-        // Plugins screen itself asks for.
-        return self::EXT_TYPE === 'plugin'
-            ? $user->authorise('core.manage', 'com_plugins') && $user->authorise('core.edit', 'com_plugins')
-            : $user->authorise('core.admin', self::EXT_ELEMENT);
+        // Plugins screen itself asks for. A module's panel is on the Modules screen.
+        return match (self::EXT_TYPE) {
+            'plugin' => $user->authorise('core.manage', 'com_plugins') && $user->authorise('core.edit', 'com_plugins'),
+            'module' => $user->authorise('core.manage', 'com_modules') && $user->authorise('core.edit', 'com_modules'),
+            default  => $user->authorise('core.admin', self::EXT_ELEMENT),
+        };
     }
 
     /**
@@ -666,11 +679,7 @@ final class AccountLinkHelper
 
     private static function loadLanguage(): void
     {
-        $base = self::EXT_TYPE === 'plugin'
-            ? JPATH_PLUGINS . '/' . self::EXT_FOLDER . '/' . self::EXT_ELEMENT
-            : JPATH_ADMINISTRATOR . '/components/' . self::EXT_ELEMENT;
-
-        Factory::getApplication()->getLanguage()->load(self::LANG_EXTENSION, $base);
+        Factory::getApplication()->getLanguage()->load(self::LANG_EXTENSION, JPATH_ADMINISTRATOR . '/components/com_kitdemo');
     }
 
     /** The panel posts with fetch, so it works inside another form such as a plugin's edit screen. */

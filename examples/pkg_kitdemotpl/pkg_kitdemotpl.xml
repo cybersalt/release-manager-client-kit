@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" method="upgrade">
+    <name>Kit Demo Template</name>
+    <packagename>kitdemotpl</packagename>
+    <author>Cybersalt</author>
+    <creationDate>November 2026</creationDate>
+    <copyright>Copyright (C) 2026 Cybersalt. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <version>1.0.0</version>
+    <description>A template sold with a small plugin that carries the Link your account panel.</description>
+
+    <scriptfile>script.php</scriptfile>
+
+    <files folder="packages">
+        <folder type="template" id="kitdemotpl" client="site">tpl_kitdemotpl</folder>
+        <folder type="plugin" id="kitdemotpllicence" group="system">plg_system_kitdemotpllicence</folder>
+    </files>
+
+    <updateservers>
+        <server type="extension" name="Kit Demo Template">https://store.example.com/index.php?option=com_csreleasemanager&amp;task=api.updatexml&amp;format=raw&amp;element=pkg_kitdemotpl</server>
+    </updateservers>
+</extension>

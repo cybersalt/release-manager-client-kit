@@ -4,9 +4,9 @@
 // Paste the body of this method into the postflight() of the script.php that
 // belongs to what you sell ({{PACKAGE_ELEMENT}}).
 //
-// Joomla rebuilds the update site after postflight has run. It keeps the key in
+// Joomla rebuilds the update site after postflight has run. It keeps the link in
 // extra_query, which its own update screen uses, but not in the URL, which remote
-// managers such as mySites.guru need. So the key goes back at the end of the request.
+// managers such as mySites.guru need. So the link goes back at the end of the request.
 //
 // No script.php yet? Copy this whole file next to that manifest and add
 // <scriptfile>script.php</scriptfile> to it. Keep the class name: Joomla silently
@@ -25,16 +25,20 @@ class {{SCRIPT_CLASS}}
             }
 
             if (class_exists($class, false)) {
+                if ($type === 'install') {
+                    $class::noticeOnInstall();
+                }
+
                 register_shutdown_function(static function () use ($class): void {
                     try {
                         $class::syncUpdateSite();
                     } catch (\Throwable $e) {
-                        // The panel puts the key back when it is next opened.
+                        // The panel puts it back when it is next opened.
                     }
                 });
             }
         } catch (\Throwable $e) {
-            // Not worth failing an install over; the panel puts the key back when opened.
+            // Not worth failing an install over; the panel puts it back when opened.
         }
 
         return true;

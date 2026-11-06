@@ -32,5 +32,4 @@
     <updateservers>
         <server type="extension" name="Kit Demo Plugin">https://store.example.com/index.php?option=com_csreleasemanager&amp;task=api.updatexml&amp;format=raw&amp;element=kitdemoplg</server>
     </updateservers>
-    <dlid prefix="dlid=" suffix="" />
 </extension>

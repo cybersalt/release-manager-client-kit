@@ -2,7 +2,7 @@
 
 <!-- A. In your plugin's manifest ({{EXT_KEY}}), inside <config><fields name="params">.
      It adds a "Link your account" tab to the plugin's settings. -->
-<fieldset name="account" label="Link your account" addfieldprefix="{{NAMESPACE}}\Field">
+<fieldset name="account" label="Link your account" addfieldprefix="{{FIELD_NS}}">
     <field name="account_link" type="accountlink" hiddenLabel="true" />
 </fieldset>
 
@@ -11,10 +11,15 @@
 <folder>language</folder>
 <folder>src</folder>
 
-<!-- C. In the manifest of what you sell ({{PACKAGE_ELEMENT}}), at the top level. If you
+<!-- C. If your plugin's manifest has no <namespace> tag yet, add this at the top level.
+     A plugin without one keeps working as it did; this only lets Joomla find the kit's
+     new classes. -->
+<namespace path="src">{{NAMESPACE}}</namespace>
+
+<!-- D. In the manifest of what you sell ({{PACKAGE_ELEMENT}}), at the top level. If you
      already have an <updateservers> block, this replaces it, so your store takes over
-     updates for every site that installs this version. -->
+     updates for every site that installs this version. Remove any <dlid> tag: it makes
+     Joomla ask your customers for a download key, and they link by email instead. -->
 <updateservers>
     <server type="extension" name="{{PRODUCT_XML}}">{{FEED_URL_XML}}</server>
 </updateservers>
-<dlid prefix="dlid=" suffix="" />

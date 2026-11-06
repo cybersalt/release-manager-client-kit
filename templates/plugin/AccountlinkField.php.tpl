@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later
  */
 
-namespace {{NAMESPACE}}\Field;
+namespace {{FIELD_NS}};
 
 defined('_JEXEC') or die;
 

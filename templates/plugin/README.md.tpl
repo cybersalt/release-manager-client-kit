@@ -10,7 +10,7 @@ Copy the `src` and `language` folders in this kit into your plugin's folder. The
 
 | File | What it is |
 |---|---|
-| `src/Helper/AccountLinkHelper.php` | The client: register, link, verify, write the download key to your update site |
+| `src/Helper/AccountLinkHelper.php` | The client: register, link, verify, write the link to your update site |
 | `src/Helper/account-panel.php` | The panel's layout. Change it freely |
 | `src/Field/AccountlinkField.php` | Shows the panel in the plugin's settings |
 | `language/en-GB/{{LANG_EXTENSION}}.ini` | The panel's text. Change the wording freely |
@@ -23,7 +23,7 @@ Copy the `src` and `language` folders in this kit into your plugin's folder. The
 
 `snippets/plugin-method.php` has it, in both forms. The panel posts through Joomla's `com_ajax`, so **the plugin has to be enabled** to link. Until it is, the tab says so.
 
-## 4. Restore the key after updates
+## 4. Restore the link after updates
 
 `snippets/postflight.php` has what goes in `postflight()`.
 
@@ -41,8 +41,9 @@ In the package on your store, set **Account Link Location** to `in System > Plug
 ## Good to know
 
 - **Linking needs no email confirmation, on purpose.** Your code is GPL, so nobody can be stopped from running it. Instead, the owner of the address gets an email naming the domain and can remove or report the site on the store's My Installations page, and you see every domain under **Installations**, so you can write to sites that haven't paid.
+- **Your customers never handle a key.** Don't add a `<dlid>` tag to your manifest: Joomla would then show them a "Download Key missing" warning and a box to paste one into.
 - **The link is stored in your plugin's `custom_data` column** in `#__extensions`, under the key `csrm_account`, not in its params. Saving the plugin and updating it both leave it alone. If your plugin already keeps data in `custom_data`, it needs to be JSON for the two to live side by side.
 - **Keep the security checks** if you change `AccountLinkHelper`: the strict `isOwnFeed()`, the `getDlid()` shape check, and escaping everything the store sends. It is shown to an administrator in your customer's admin.
-- **Requires** a namespaced plugin with `<namespace path="src">` in its manifest, on Joomla 5 or 6 and PHP 8.1+.
+- **Requires** `<namespace path="src">` in your manifest, on Joomla 5 or 6 and PHP 8.1+. A plugin without one can add it: `snippets/manifest.xml` has the line.
 
 The full guide: https://docs.cybersalt.com/extensions/release-manager/developer-guide
