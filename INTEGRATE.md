@@ -74,7 +74,7 @@ The generator writes a `README.md`. It is the same steps as below, with the deve
 - **Check the extension doesn't already use `custom_data` in `#__extensions`.** The link is kept there, under the key `csrm_account`. If the extension stores something else in that column, it needs to be JSON for the two to live side by side, so stop and ask.
 - **Only touch this extension's own update site.** Other vendors' extensions on the same site have their own.
 - **Don't change the extension's other behaviour,** and don't gate its features on the licence unless the developer asks. This is about updates.
-- **Change wording only in the `.account.ini` file and the layout only in `account-panel.php`.** Those two are meant to be edited.
+- **Change wording only in the `.account.ini` files (one per language) and the layout only in `account-panel.php`.** Those are meant to be edited.
 - **Don't commit, push, tag, publish or bump the version** unless the developer asks. A new version is needed to ship this, so say so in your report.
 
 ## 6. Anything else: add a small plugin

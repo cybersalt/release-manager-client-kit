@@ -13,7 +13,7 @@ Copy the `src` and `language` folders in this kit into your plugin's folder. The
 | `src/Helper/AccountLinkHelper.php` | The client: register, link, verify, write the link to your update site |
 | `src/Helper/account-panel.php` | The panel's layout. Change it freely |
 | `src/Field/AccountlinkField.php` | Shows the panel in the plugin's settings |
-| `language/en-GB/{{LANG_EXTENSION}}.ini` | The panel's text. Change the wording freely |
+| `language/*/{{LANG_EXTENSION}}.ini` | The panel's text, in 17 languages. Change the wording freely |
 
 ## 2. Edit your manifest
 

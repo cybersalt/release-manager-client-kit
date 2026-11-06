@@ -14,7 +14,7 @@ Copy the `admin` folder in this kit over your component's admin folder. It only 
 | `admin/src/Helper/account-panel.php` | The panel's layout. Change it freely |
 | `admin/src/Controller/AccountController.php` | What the panel posts to |
 | `admin/src/View/Account/HtmlView.php`, `admin/tmpl/account/default.php` | The screen that shows the panel |
-| `admin/language/en-GB/{{LANG_EXTENSION}}.ini` | The panel's text. Change the wording freely |
+| `admin/language/*/{{LANG_EXTENSION}}.ini` | The panel's text, in 17 languages. Change the wording freely |
 
 If your component's admin folder isn't called `admin` in your repository, copy them to wherever those folders are.
 

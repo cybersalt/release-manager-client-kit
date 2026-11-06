@@ -111,6 +111,13 @@ final class KitBuilder
             $files[$output] = strtr($contents, $tokens);
         }
 
+        // The panel's text in the other languages goes beside the en-GB file.
+        foreach (glob(rtrim($templates, '/\\') . '/common/lang/*.account.ini.tpl') ?: [] as $translation) {
+            $tag = basename($translation, '.account.ini.tpl');
+
+            $files[str_replace('/en-GB/', '/' . $tag . '/', $map['common/account.ini.tpl'])] = strtr((string) file_get_contents($translation), $tokens);
+        }
+
         return $files;
     }
 
